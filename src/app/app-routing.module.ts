@@ -7,11 +7,11 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/categories', pathMatch: 'full' },
-  { path: 'categories', component: CategoriesComponent },
+  { path: '', redirectTo: '/items', pathMatch: 'full' },
+  { path: 'items', component: CategoriesComponent },
   { path: 'veterinary', component: VeterinaryComponent },
   { path: 'shopping-cart', component: ShoppingCartComponent },
-  { path: 'categories/:category', component: CategoryItemComponent }
+  { path: 'items/:category', component: CategoryItemComponent }
 
 ];
 

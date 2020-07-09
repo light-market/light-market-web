@@ -11,6 +11,7 @@ export class CategoriesComponent implements OnInit {
     'https://www.sciencemag.org/sites/default/files/styles/article_main_image_-_1280w__no_aspect_/public/dogs_1280p_0.jpg?itok=6jQzdNB8',
     'https://images2.minutemediacdn.com/image/upload/c_crop,h_1188,w_2121,x_0,y_142/f_auto,q_auto,w_1100/v1554733134/shape/mentalfloss/78996-istock-682216682.jpg',
     'http://imaginepetproducts.ca/img/imagine-products.png'];
+  links = ['cats', 'cogs', 'birds', 'products'];
   constructor() { }
 
   ngOnInit(): void {

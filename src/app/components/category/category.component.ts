@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class CategoryComponent implements OnInit {
   @Input() category: string;
   @Input() image: string;
+  @Input() link: string;
   constructor() { }
 
   ngOnInit(): void {
