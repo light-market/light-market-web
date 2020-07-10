@@ -12,31 +12,15 @@
               <th scope="col">Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngFor="let item of cart">
             <tr>
               <td class="w-25">
-                <img src="https://news.cgtn.com/news/77416a4e3145544d326b544d354d444d3355444f31457a6333566d54/img/37d598e5a04344da81c76621ba273915/37d598e5a04344da81c76621ba273915.jpg" class="img-fluid img-thumbnail" alt="Sheep">
+                <img [src]="item.imageUrl" class="img-fluid img-thumbnail" alt="Cannot load img">
               </td>
-              <td>Vans Sk8-Hi MTE Shoes</td>
-              <td>89$</td>
-              <td class="qty"><input type="text" class="form-control" id="input1" value="2"></td>
-              <td>178$</td>
-              <td>
-                <a href="#" class="btn btn-danger btn-sm">
-                  <i class="fa fa-times"></i>
-                </a>
-              </td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr>
-              <td class="w-25">
-                <img src="https://i.insider.com/5ec6c6dc988ee362762f137b?width=900&format=jpeg&auto=webp" class="img-fluid img-thumbnail" alt="Sheep">
-              </td>
-              <td>Vans Sk8-Hi MTE Shoes</td>
-              <td>89$</td>
-              <td class="qty"><input type="text" class="form-control" id="input1" value="2"></td>
-              <td>178$</td>
+              <td>{{item.name}}</td>
+              <td>{{item.price}}$</td>
+              <td class="qty"><input type="text" class="form-control" id="input1" [value]="item.qty"></td>
+              <td>{{item.price*2}}$</td>
               <td>
                 <a href="#" class="btn btn-danger btn-sm">
                   <i class="fa fa-times"></i>
