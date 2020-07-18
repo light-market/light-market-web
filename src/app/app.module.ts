@@ -5,10 +5,11 @@ import { AppComponent } from './app.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { CategoryComponent } from './components/category/category.component';
 import { HeaderComponent } from './components/header/header.component';
-import { CategoryItemComponent } from './pages/category-item/category-item.component';
-import { ItemsComponent } from './components/items/items.component';
+import { ProductComponent } from './components/product/product.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { SendQuestionComponent } from './components/send-question/send-question.component';
+import { CategoryItemsComponent } from './pages/category-items/category-items.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 
 @NgModule({
@@ -18,9 +19,10 @@ import { SendQuestionComponent } from './components/send-question/send-question.
     CategoryComponent,
     HeaderComponent,
     SendQuestionComponent,
-    CategoryItemComponent,
-    ItemsComponent,
-    ShoppingCartComponent
+    CategoryItemsComponent,
+    ProductComponent,
+    ShoppingCartComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,

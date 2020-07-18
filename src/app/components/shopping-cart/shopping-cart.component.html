@@ -1,40 +1,46 @@
-<div class="row">
-    <div class="col-xs-12">
-      <div class="modal-body">
-        <table class="table table-image">
-          <thead>
-            <tr>
-              <th scope="col"></th>
-              <th scope="col">Product</th>
-              <th scope="col">Price</th>
-              <th scope="col">Qty</th>
-              <th scope="col">Total</th>
-              <th scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody *ngFor="let item of cart">
-            <tr>
-              <td class="w-25">
-                <img [src]="item.imageUrl" class="img-fluid img-thumbnail" alt="Cannot load img">
-              </td>
-              <td>{{item.name}}</td>
-              <td>{{item.price}}$</td>
-              <td class="qty"><input type="text" class="form-control" id="input1" [value]="item.qty"></td>
-              <td>{{item.price*2}}$</td>
-              <td>
-                <a href="#" class="btn btn-danger btn-sm">
-                  <i class="fa fa-times"></i>
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table> 
-        <div class="d-flex justify-content-end">
-          <h5>Total: <span class="price text-success">89$</span></h5>
-        </div>
-      </div>
-      <div class="modal-footer border-top-0 d-flex justify-content-between">
-        <button type="button" class="btn btn-primary">Checkout</button>
+<div *ngIf="cart.totalPrice === 0" style="margin-top: 30px;" class="text-center">
+  <h1 class="alert alert-primary">You have not any items in cart yet</h1>
+</div>
+<div class="row" *ngIf="cart.totalPrice !== 0">
+  <div class="col-xs-12">
+    <div class="modal-body">
+      <table class="table table-image">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Product</th>
+            <th scope="col">Price</th>
+            <th scope="col">Qty</th>
+            <th scope="col">Total</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let item of cart['product'];let i = index">
+          <tr>
+            <td class="w-25">
+              <img [src]="item.imageUrl" class="img-fluid img-thumbnail" alt="Cannot load img">
+            </td>
+            <td>{{item.name}}</td>
+            <td>{{item.price}}$</td>
+            <td><button *ngIf="item.quantity !==1" class="btn btn-danger btn-sm" (click)="decreaseAmouunt(i,item.price)"
+                [disabled]="quantities[i].amount===1">-</button> <span> {{quantities[i].amount}} </span>
+              <button *ngIf="item.quantity !==1" class="btn btn-success btn-sm" (click)="addAmount(i,item.price)"
+                [disabled]="quantities[i].amount===item.quantity">+</button></td>
+            <td>{{item.price*quantities[i].amount}}$</td>
+            <td>
+              <button class="btn btn-danger btn-sm" (click)="deleteItem(i)">
+                <i class="fa fa-times"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-end">
+        <h5>Total: <span class="price text-success">{{cart.totalPrice}}</span></h5>
       </div>
     </div>
+    <div class="modal-footer border-top-0 d-flex justify-content-between">
+      <button type="button" class="btn btn-primary">Checkout</button>
+    </div>
   </div>
+</div>
