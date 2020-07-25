@@ -9,23 +9,23 @@ export class HeaderComponent implements OnInit {
   menu = [
     {
       'name': 'Home',
-      'link': '/items'
+      'link': '/categories'
     },
     {
       'name': 'Cats',
-      'link': '/items/cats'
+      'link': '/categories/cats'
     },
     {
       'name': 'Dogs',
-      'link': '/items/dogs'
+      'link': '/categories/dogs'
     },
     {
       'name': 'Birds',
-      'link': '/items/birds'
+      'link': '/categories/birds'
     },
     {
       'name': 'Product',
-      'link': '/items/products'
+      'link': '/categories/products'
     },
     {
       'name': 'Veterinary Problem',
