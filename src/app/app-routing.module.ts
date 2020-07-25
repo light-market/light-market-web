@@ -7,11 +7,11 @@ import { SendQuestionComponent } from './components/send-question/send-question.
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/items', pathMatch: 'full' },
-  { path: 'items', component: CategoriesComponent },
+  { path: '', redirectTo: '/categories', pathMatch: 'full' },
+  { path: 'categories', component: CategoriesComponent },
   { path: 'send-question', component: SendQuestionComponent },
   { path: 'shopping-cart', component: ShoppingCartComponent },
-  { path: 'items/:category', component: CategoryItemsComponent }
+  { path: 'categories/:category', component: CategoryItemsComponent }
 
 ];
 
