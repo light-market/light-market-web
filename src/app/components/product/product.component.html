@@ -1,0 +1,16 @@
+<figure class="card card-product">
+  <div class="img-wrap"><img [src]="product.imageUrl"></div>
+  <figcaption class="info-wrap">
+    <div class="text-center">
+      <app-loading-spinner *ngIf="isloading"></app-loading-spinner>
+    </div>
+    <h4 class="title">{{product.name}}</h4>
+    <p class="desc">{{product.description}}</p>
+  </figcaption>
+  <div class="bottom-wrap">
+    <button class="btn btn-sm btn-primary float-right" (click)="addToCard()">Add to Cart</button>
+    <div class="price-wrap h5">
+      <span class="price-new">${{product.price}}</span> <del class="price-old">${{product.secondPrice}}</del>
+    </div> <!-- price-wrap.// -->
+  </div> <!-- bottom-wrap.// -->
+</figure>

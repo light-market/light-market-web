@@ -11,9 +11,8 @@
         <a class="nav-link" [routerLink]="item.link">{{item.name}}</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <button class="btn btn-outline-danger my-2 my-sm-0"(click)="logout()" *ngIf="checkLogin">Logout</button>
+    <button class="btn btn-outline-success my-2 my-sm-0" *ngIf="!checkLogin" [routerLink]="['/auth']"  >Login</button>
+  
   </div>
 </nav>
