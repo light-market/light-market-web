@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, DoCheck } from '@angular/core';
+import { ApiService } from 'src/app/services/api/api.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements DoCheck {
+  checkLogin = false;
   menu = [
     {
       'name': 'Home',
@@ -36,9 +38,22 @@ export class HeaderComponent implements OnInit {
       'link': '/shopping-cart'
     }
   ]
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor( private api :ApiService) { }
+  ngDoCheck(): void {
+    if(localStorage.getItem('token')){
+      this.checkLogin=true;
+      }
   }
 
+  ngOnInit(): void {
+    if(localStorage.getItem('token')){
+    this.checkLogin=true;
+    }
+
+}
+
+logout(){
+  localStorage.removeItem('token');
+  this.checkLogin=false;
+}
 }

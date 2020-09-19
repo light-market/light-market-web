@@ -33,6 +33,7 @@ export class CategoryItemsComponent implements OnInit {
   //get category products
   getProducts(category: string) {
     this.apiService.getProductByCategoy(category).subscribe((response: Product[]) => {
+      console.log(response);
       this.products = response;
     });
   }

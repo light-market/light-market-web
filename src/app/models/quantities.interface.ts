@@ -1,4 +1,4 @@
 export interface Quantities {
-    id: string;
-    amount: number
+    productID: string;
+    quantity: number
 }

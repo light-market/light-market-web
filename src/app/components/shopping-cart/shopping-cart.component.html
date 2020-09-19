@@ -22,11 +22,19 @@
             </td>
             <td>{{item.name}}</td>
             <td>{{item.price}}$</td>
+
+
             <td><button *ngIf="item.quantity !==1" class="btn btn-danger btn-sm" (click)="decreaseAmouunt(i,item.price)"
-                [disabled]="quantities[i].amount===1">-</button> <span> {{quantities[i].amount}} </span>
+                [disabled]="quantities[i]?.quantity===1">-</button> <span> {{quantities[i]?.quantity}} </span>
               <button *ngIf="item.quantity !==1" class="btn btn-success btn-sm" (click)="addAmount(i,item.price)"
-                [disabled]="quantities[i].amount===item.quantity">+</button></td>
-            <td>{{item.price*quantities[i].amount}}$</td>
+                [disabled]="quantities[i]?.quantity===item?.quantity">+</button>
+            </td>
+
+
+            <td>{{item.price * quantities[i]?.quantity}}$</td>
+
+
+
             <td>
               <button class="btn btn-danger btn-sm" (click)="deleteItem(i)">
                 <i class="fa fa-times"></i>
@@ -40,7 +48,7 @@
       </div>
     </div>
     <div class="modal-footer border-top-0 d-flex justify-content-between">
-      <button type="button" class="btn btn-primary">Checkout</button>
+      <button type="button" class="btn btn-primary" (click)="saveCart()">Checkout</button>
     </div>
   </div>
 </div>

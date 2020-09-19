@@ -1,0 +1,35 @@
+<div class="global-container">
+    <div class="card login-form">
+        <div class="card-body">
+            <h3 class="card-title text-center">{{status}} Light Market</h3>
+            <div class="card-text">
+                
+			<div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="error">{{error}}</div>
+                <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+                    <!-- to error: add class "has-danger" -->
+                    <div class="form-group" *ngIf="!islogging">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control form-control-sm" id="username" ngModel name="username"
+                            [required]="!islogging">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control form-control-sm" id="email" aria-describedby="emailHelp"
+                            ngModel name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control form-control-sm" id="password" ngModel
+                            name="password" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block"
+                        [disabled]="!authForm.valid" >{{islogging ? 'Login' : 'Register'}}</button>
+                    <div class="sign-up" *ngIf="islogging">
+                        Don't have an account? <button class="btn btn-primary" style="margin-top: -4px;"
+                            (click)="register()">Create one</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
