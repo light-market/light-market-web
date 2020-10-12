@@ -4,8 +4,11 @@
             <h3 class="card-title text-center">{{status}} Light Market</h3>
             <div class="card-text">
                 
-			<div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="error">{{error}}</div>
-                <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="error">{{error}}</div>
+            <div *ngIf="wait">
+                <app-loading-spinner></app-loading-spinner> 
+            </div>
+                <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!wait">
                     <!-- to error: add class "has-danger" -->
                     <div class="form-group" *ngIf="!islogging">
                         <label for="username">Username</label>

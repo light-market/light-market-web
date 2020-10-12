@@ -15,18 +15,18 @@ export class ShoppingCartComponent implements OnInit {
     product: [],
     totalPrice: 0
   };
-  quantities: Quantities[]=[] ;
-  message : string;
+  quantities: Quantities[] = [];
+  message: string;
 
   constructor(
     private cartService: CartService,
-    private api :ApiService,
-    private router : Router,
-    ){ }
+    private api: ApiService,
+    private router: Router,
+  ) { }
 
-  ngOnInit(): void {
-    this.cartService.getCartFromApi();
+  ngOnInit() {
     this.getCart();
+
   }
 
   getCart() {
@@ -47,13 +47,13 @@ export class ShoppingCartComponent implements OnInit {
   deleteItem(index: number) {
     this.cartService.deleteProductFromCart(index);
   }
-  saveCart(){
+  saveCart() {
     //console.log('1236')
-    this.api.apiSaveToCart(this.quantities,this.cart.totalPrice).subscribe(response=>{
+    this.api.apiSaveToCart(this.quantities, this.cart.totalPrice).subscribe(response => {
       console.log(response);
-    },error=>{
-      this.router.navigate(['auth'],{queryParams:{last : 'shopping-cart'}});
-      
+    }, error => {
+      this.router.navigate(['auth'], { queryParams: { last: 'shopping-cart' } });
+
     });
   }
 }
