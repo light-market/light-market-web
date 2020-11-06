@@ -37,10 +37,14 @@ export class AuthComponent implements OnInit {
       this.api.login(email, password).subscribe(res => {
         this.wait = false;
         this.userService.setUser(res.accessToken);
-        if (this.cartService.cart.totalPrice === 0) {
-          this.cartService.getCartFromApi();
+        if (this.userService.role === 'admin') {
+          this.router.navigate(['dashboard']);
+        } else {
+          if (this.cartService.cart.totalPrice === 0) {
+            this.cartService.getCartFromApi();
+          }
+          this.moveToPreviousPage();
         }
-        this.moveToPreviousPage();
       }, error => {
         this.wait = false;
         this.error = error.error.message;

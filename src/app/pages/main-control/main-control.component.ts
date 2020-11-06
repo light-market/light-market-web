@@ -11,10 +11,10 @@ export class MainControlComponent implements OnInit {
     font : "fas fa-tachometer-alt"
   };
   configs = [{
-    title : "Product",
+    title : "Stock",
     color : "#ffb997",
     font : "fas fa-paw fa-2x",
-    path : "/"
+    path : "stock"
   },
   {
     title : "Categories",
@@ -26,7 +26,7 @@ export class MainControlComponent implements OnInit {
     title : "Questions",
     color : "#843b62",
     font : "fas fa-question fa-2x",
-    path : "/"
+    path : "faqControl"
   },
   {
     title : "Stuff",
@@ -38,7 +38,7 @@ export class MainControlComponent implements OnInit {
     title : "Orders",
     color : "#480048",
     font : "fas fa-shopping-cart fa-2x",
-    path : "/"
+    path : "orders"
   },
   {
     title : "Support",

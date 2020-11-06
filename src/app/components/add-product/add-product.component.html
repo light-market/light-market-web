@@ -1,0 +1,64 @@
+<div class="alert alert-success" role="alert" *ngIf="message">{{message}}</div>
+<div class="card text-center" (click)="onHideMessage()">
+    <div class="card-header">
+        Add Products
+    </div>
+    
+    <div class="card-body">
+        <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+            <div class="form-group row">
+                <label for="productName" class="col-sm-3 col-form-label">Product Name</label>
+                <div class="col-sm-9">
+                    <input type="text" name="name" id="productName" class="form-control" required ngModel>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="description" class="col-sm-3 col-form-label">Description</label>
+                <div class="col-sm-9">
+                    <textarea name="description" id="description" cols="30" rows="5" class="form-control"
+                        required ngModel></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="imageUrl" class="col-sm-3 col-form-label">Image Url</label>
+                <div class="col-sm-9">
+                    <input type="text" name="imageUrl" id="imageUrl" class="form-control" required ngModel>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="quantity" class="col-sm-3 col-form-label">Quantity</label>
+                <div class="col-sm-3">
+                    <input type="number" name="quantity" id="quantity" class="form-control" required ngModel>
+                </div>
+                <label for="type" class="col-sm-3 col-form-label">Type</label>
+                <div class="col-sm-3">
+                    <select name="type" class="form-control" id="type" ngModel requireds>
+                        <option value="cats" selected>Cats</option>
+                        <option value="dogs">Dogs</option>
+                        <option value="birds">Birds</option>
+                        <option value="products">Products</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+                <label for="price" class="col-sm-3 col-form-label">Price</label>
+                <div class="col-sm-3">
+                    <input type="number" name="price" id="price" class="form-control" required ngModel>
+                </div>
+                <label for="oldPrice" class="col-sm-3 col-form-label">Old Price</label>
+                <div class="col-sm-3">
+                    <input type="number" name="oldPrice" id="oldPrice" class="form-control" required ngModel>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary float-center add-product"  [disabled]="!form.valid">Add</button>
+
+        </form>
+        
+
+    </div>
+</div>

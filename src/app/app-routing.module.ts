@@ -12,7 +12,8 @@ const routes: Routes = [
   { path: 'categories', component: CategoriesComponent },
   { path: 'send-question', component: SendQuestionComponent },
   { path: 'shopping-cart', component: ShoppingCartComponent },
-  { path: 'categories/:category', component: CategoryItemsComponent }
+  { path: 'categories/:category', component: CategoryItemsComponent },
+  { path : 'dashboard' ,loadChildren : ()=> import ('./admin.module').then(m=>m.AdminModule)}
   
 
 ];

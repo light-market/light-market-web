@@ -1,0 +1,10 @@
+<aside class="sidebar">
+    <ul class="nav-list">
+      <li class="nav-item" *ngFor="let item of menu" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a style="text-decoration: none; color:  #f73859;" [routerLink]="item.path">
+        <i [class]="item.font"></i>
+        <span class="text">{{item.title}}</span>
+        </a>
+     </li>   
+    </ul>
+  </aside>

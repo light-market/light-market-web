@@ -1,4 +1,5 @@
 export interface FAQ {
+    id?:string;
     author: string;
     specialist?: string;
     question: string;

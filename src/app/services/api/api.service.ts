@@ -7,6 +7,7 @@ import { tap } from 'rxjs/operators'
 import { Quantities } from 'src/app/models/quantities.interface';
 import { environment } from '../../../environments/environment'
 import { UserService } from '../user/user.service';
+import { Cart } from 'src/app/models/cart.interface';
 
 
 const api = environment.apiUrl;
@@ -17,7 +18,7 @@ const api = environment.apiUrl;
 export class ApiService {
 
 
-  constructor(private http: HttpClient,private userService : UserService) {
+  constructor(private http: HttpClient, private userService: UserService) {
   }
   loggedin = false;
 
@@ -25,17 +26,17 @@ export class ApiService {
     return this.http.get<Category[]>(api + '/categories');
   }
 
-  getProductByCategoy(category: string, offset: number = 0, limit: number = 30) {
-    let urlParams = new HttpParams();
-    urlParams = urlParams.append('offset', offset.toString());
-    urlParams = urlParams.append('limit', limit.toString());
-    return this.http.get<Product[]>(api + '/products/' + category, { params: urlParams });
+  getProductByCategoy(category: string) {
+    return this.http.get<Product[]>(api + '/products/' + category);
+  }
+  getProductByCategoyAdmin(category: string) {
+    const token = this.userService.token;
+    return this.http.get<Product[]>(api + '/products/' + category, {
+      headers: new HttpHeaders({ adminToken: token })
+    });
   }
   getFaq(offset: number = 0, limit: number = 30) {
-    let urlParams = new HttpParams();
-    urlParams = urlParams.append('offset', offset.toString());
-    urlParams = urlParams.append('limit', limit.toString());
-    return this.http.get<FAQ[]>(api + '/faq/users', { params: urlParams });
+    return this.http.get<FAQ[]>(api + '/faq');
   }
   sendQuestion(faq: FAQ) {
     return this.http.post<{ message: string }>(api + '/faq', faq);
@@ -71,6 +72,48 @@ export class ApiService {
         headers: new HttpHeaders({ 'accessToken': token })
       })
     }
+  }
+  addProduct(product: Product, type: string) {
+    const token = this.userService.token;
+    return this.http.post<any>(api + '/products/' + type, product, {
+      headers: new HttpHeaders({ 'adminToken': token })
+    })
+  }
+  updateProduct(product: Product) {
+    const token = this.userService.token;
+    return this.http.put<any>(api + '/products/' + product.id, product, {
+      headers: new HttpHeaders({ 'adminToken': token })
+    })
+  }
+  deleteProduct(id: string) {
+    const token = this.userService.token;
+    return this.http.delete<any>(api + '/products/' + id, {
+      headers: new HttpHeaders({ 'adminToken': token })
+    })
+  }
+  getQuestionsAdmin() {
+    const token = this.userService.token;
+    return this.http.get<FAQ[]>(api + '/faq/', {
+      headers: new HttpHeaders({ 'adminToken': token })
+    })
+  }
+  DeleteQuestion(id: string) {
+    const token = this.userService.token;
+    return this.http.delete<any>(api + '/faq/' + id, {
+      headers: new HttpHeaders({ 'adminToken': token })
+    })
+  }
+  approveQuestion(faq: FAQ) {
+    const token = this.userService.token;
+    return this.http.put<any>(api + '/faq/' + faq.id, faq, {
+      headers: new HttpHeaders({ 'adminToken': token })
+    })
+  }
+  getOrders(){
+    const token = this.userService.token;
+    return this.http.get<Cart[]>(api + '/cart-admin' ,{
+      headers: new HttpHeaders({ 'adminToken': token })
+    }) 
   }
 
 }
