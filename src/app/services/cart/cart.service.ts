@@ -35,6 +35,11 @@ export class CartService {
     //   }
     // }
     if (this.cart.product.findIndex(x=> x.id === product.id)>= 0){
+      let index = this.orderQuantities.findIndex(x=> x.productID === product.id)
+      if (this.orderQuantities[index].quantity+1 <= product.quantity){
+        this.cart.totalPrice = this.cart.totalPrice + +product.price;
+        this.orderQuantities[index].quantity = this.orderQuantities[index].quantity +1;
+      }
       return "This Item Added Before";
       
     }else {

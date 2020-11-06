@@ -1,0 +1,114 @@
+<div class="alert alert-success " *ngIf="messageDelete">{{messageDelete}}</div>
+<form (ngSubmit)="filter(form)" #form="ngForm">
+    <div class="form-group">
+        <select name="filter" class="form-control" required ngModel>
+            <option value="cats">Cats</option>
+            <option value="dogs">Dogs</option>
+            <option value="birds">Birds</option>
+            <option value="products">Products</option>
+        </select>
+    </div>
+
+    <button class="btn btn-primary"><i class="fas fa-filter"></i> Filter</button>
+</form>
+<br>
+
+<table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="products?.length != 0">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Price2</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let product of products;let i=index">
+            <td>{{product.name}}</td>
+            <td>{{product.quantity}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.secondPrice}}</td>
+            <td><button class="btn btn-success" (click)="onEditProduct(product)" data-toggle="modal"
+                    data-target="#editModal"><i class="fas fa-edit"></i></button>|<button
+                    (click)="deletedItemId=product.id" class="btn btn-danger" data-toggle="modal"
+                    data-target="#deleteModal"><i class="fas fa-trash-alt"></i></button></td>
+            <app-modal [message]="deleteMode.message" (confirmed)=onDeleteProduct($event,i)></app-modal>
+            <!--Modal-->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLable"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLable">Edit Product</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!--Form -->
+                            <div class="alert alert-success" *ngIf="messageEdit">{{messageEdit}}</div>
+                            <app-loading-spinner *ngIf="loading"></app-loading-spinner>
+                            <form (ngSubmit)="onSubmit(form)" #form="ngForm" *ngIf="!loading">
+                                <div class="form-group row">
+                                    <label for="productName" class="col-sm-3 col-form-label">Product Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="name" id="productName" class="form-control"
+                                            [(ngModel)]="editedProduct.name" required ngModel>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="description" class="col-sm-3 col-form-label">Description</label>
+                                    <div class="col-sm-9">
+                                        <textarea name="description" id="description" cols="30" rows="5"
+                                            class="form-control" [(ngModel)]="editedProduct.description" required
+                                            ngModel></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="imageUrl" class="col-sm-3 col-form-label">Image Url</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="imageUrl" id="imageUrl" class="form-control"
+                                            [(ngModel)]="editedProduct.imageUrl" required ngModel>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="quantity" class="col-sm-3 col-form-label">Quantity</label>
+                                    <div class="col-sm-3">
+                                        <input type="number" name="quantity" id="quantity" class="form-control"
+                                            [(ngModel)]="editedProduct.quantity" required ngModel>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="price" class="col-sm-3 col-form-label">Price</label>
+                                    <div class="col-sm-3">
+                                        <input type="number" name="price" id="price" class="form-control"
+                                            [(ngModel)]="editedProduct.price" required ngModel>
+                                    </div>
+                                    <label for="oldPrice" class="col-sm-3 col-form-label">Old Price</label>
+                                    <div class="col-sm-3">
+                                        <input type="number" name="secondPrice" id="oldPrice" class="form-control"
+                                            [(ngModel)]="editedProduct.secondPrice" required ngModel>
+                                    </div>
+                                </div>
+                                <input type="hidden" [(ngModel)]="editedProduct.id" name="id" ngModel>
+                                <button type="submit" class="btn btn-success"><i class="fas fa-edit"></i> Edit</button>
+                            </form>
+                            <!-- End Form -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End Modal-->
+
+        </tr>
+    </tbody>
+</table>

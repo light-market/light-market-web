@@ -11,9 +11,9 @@ import { ProductComponent } from './components/product/product.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { SendQuestionComponent } from './components/send-question/send-question.component';
 import { CategoryItemsComponent } from './pages/category-items/category-items.component';
-import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
-import { from } from 'rxjs';
-import { AuthComponent } from './components/auth/auth.component';
+import { AuthModule } from './auth.module';
+import { SharedModule } from './shared.module';
+import { AdminModule } from './admin.module';
 
 
 @NgModule({
@@ -25,15 +25,16 @@ import { AuthComponent } from './components/auth/auth.component';
     SendQuestionComponent,
     CategoryItemsComponent,
     ProductComponent,
-    ShoppingCartComponent,
-    LoadingSpinnerComponent,
-    AuthComponent
+    ShoppingCartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    AuthModule,
+    AdminModule,
+    SharedModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
