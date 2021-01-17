@@ -9,13 +9,14 @@ import { AddProductComponent } from './components/add-product/add-product.compon
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { FaqControlComponent } from './pages/faq-control/faq-control.component';
 import { OrdersComponent } from './pages/orders/orders.component';
+import { CategoryControlComponent } from './pages/category-control/category-control.component';
 
 
 
 
 
 @NgModule({
-  declarations: [AdminProductsComponent,MainControlComponent, SidebarComponent, AddProductComponent, EditProductComponent, FaqControlComponent, OrdersComponent],
+  declarations: [AdminProductsComponent, MainControlComponent, SidebarComponent, AddProductComponent, EditProductComponent, FaqControlComponent, OrdersComponent, CategoryControlComponent],
   imports: [
     SharedModule,
     AdminRoutingModule,

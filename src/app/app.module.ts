@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
@@ -14,6 +14,9 @@ import { CategoryItemsComponent } from './pages/category-items/category-items.co
 import { AuthModule } from './auth.module';
 import { SharedModule } from './shared.module';
 import { AdminModule } from './admin.module';
+import { FooterComponent } from './components/footer/footer.component';
+import { SingleFaqComponent } from './components/single-faq/single-faq.component';
+import { LastOrdersComponent } from './pages/last-orders/last-orders.component';
 
 
 @NgModule({
@@ -25,7 +28,10 @@ import { AdminModule } from './admin.module';
     SendQuestionComponent,
     CategoryItemsComponent,
     ProductComponent,
-    ShoppingCartComponent
+    ShoppingCartComponent,
+    FooterComponent,
+    SingleFaqComponent,
+    LastOrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +40,7 @@ import { AdminModule } from './admin.module';
     AuthModule,
     AdminModule,
     SharedModule,
-    
+
   ],
   providers: [],
   bootstrap: [AppComponent]

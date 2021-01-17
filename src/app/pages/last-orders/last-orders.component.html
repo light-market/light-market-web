@@ -1,0 +1,79 @@
+<br>
+<br>
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<div *ngIf="!isLoading">
+    <div class="container">
+        <div class="col-12 alert alert-info" style="line-height: 1; margin-top: 40px;" *ngIf="carts==''">
+            <p>There is not currently previous orders</p>
+            <p>Make orders and track them here</p>
+        </div>
+    </div>
+    <div class="container" *ngFor="let cart of carts">
+        <div class="row">
+            <div class="col-md-8 item">
+                <p class="black">Order ID : <span class="blue">{{cart.id}}</span> </p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="black">Items</th>
+                            <th></th>
+                            <th scope="col" class="black">Price</th>
+                            <th scope="col" class="black">Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of cart.products">
+                            <td><img class="rounded" [src]="item.productID.imageUrl">
+                            </td>
+                            <td><span class="blue">{{item.productID.name}}</span></td>
+                            <td>{{item.productID.price *item.quantity}}</td>
+                            <td>{{item.quantity}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <div class="item">
+                    <h3 class="black">Order Summary</h3>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <p>Sub total : </p> <span>LE {{cart.totalPrice}}</span>
+                    </div>
+                    <p style="margin-top: -15px; font-size: 11px; font-weight: bold;">{{totalItems(cart.products)}}</p>
+                    <div class="d-flex justify-content-between">
+                        <p>Shipping : </p> <span>LE 0.00</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p>Estimated Tax : </p> <span>LE 0.00</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <p>Total : </p> <span>LE {{cart.totalPrice}}</span>
+                    </div>
+
+                </div>
+                <div class="item">
+                    <h3 class="black">Status</h3>
+                    <hr>
+                    <h4 class="d-flex justify-content-center"><span *ngIf="cart.status==='delivered'"
+                            style="color: green;">Delivered</span><span *ngIf="cart.status==='orderd'"
+                            style="color: red;">Orderd</span><span *ngIf="cart.status==='delivering'"
+                            style="color: blue;">Deliveing</span></h4>
+                    <p class="text-center black" *ngIf="cart.status==='orderd'">Pleace Wait Till admin Verify Order</p>
+                    <p class="text-center black" *ngIf="cart.status==='delivering'">{{cart.deliveryDate|date}}</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 item">
+                <h3 class="black">Billing Information</h3>
+                <hr>
+                <p>Send To : </p>
+                <p>{{cart.fullname}}</p>
+                <p>{{cart.address}}</p>
+                <p>{{cart.phone}}</p>
+            </div>
+        </div>
+    </div>
+</div>

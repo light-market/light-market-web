@@ -9,6 +9,7 @@ import { ApiService } from 'src/app/services/api/api.service';
 })
 export class CategoriesComponent implements OnInit {
   categories: Category[];
+  isLoading = false;
 
   constructor(private apiService: ApiService) { }
 
@@ -17,8 +18,10 @@ export class CategoriesComponent implements OnInit {
   }
 
   getCategories() {
+    this.isLoading = true;
     this.apiService.getCategories().subscribe((response: Category[]) => {
       this.categories = response;
+      this.isLoading = false;
     })
   }
 }

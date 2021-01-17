@@ -6,14 +6,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
-  @Input() message : string; 
-  @Output() confirmed = new EventEmitter <void>();
+  @Input() message: string;
+  @Output() confirmed = new EventEmitter<void>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
-  onConfirmAction(){
+  onConfirmAction() {
     this.confirmed.emit();
   }
 

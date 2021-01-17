@@ -4,15 +4,14 @@
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" *ngFor="let item of menu" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <li class="nav-item" *ngFor="let item of menu" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
         <a class="nav-link" [routerLink]="item.link">{{item.name}}</a>
       </li>
     </ul>
-    <button class="btn btn-outline-danger my-2 my-sm-0"(click)="logout()" *ngIf="checkLogin">Logout</button>
-    <button class="btn btn-outline-success my-2 my-sm-0" *ngIf="!checkLogin" [routerLink]="['/auth']"  >Login</button>
-  
+    <button class="btn btn-outline-danger my-2 my-sm-0" (click)="logout()" *ngIf="checkLogin">Logout</button>
+    <button class="btn btn-outline-success my-2 my-sm-0" *ngIf="!checkLogin" [routerLink]="['/auth']">Login</button>
   </div>
 </nav>

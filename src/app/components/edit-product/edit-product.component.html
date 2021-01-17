@@ -1,4 +1,6 @@
-<div class="alert alert-success " *ngIf="messageDelete">{{messageDelete}}</div>
+<app-success-message [message]="messageDelete" *ngIf="messageDelete" (click)="messageDelete=null"></app-success-message>
+<app-success-message [message]="messageEdit" *ngIf="messageEdit" (click)="messageEdit=null"></app-success-message>
+
 <form (ngSubmit)="filter(form)" #form="ngForm">
     <div class="form-group">
         <select name="filter" class="form-control" required ngModel>
@@ -33,7 +35,7 @@
                     data-target="#editModal"><i class="fas fa-edit"></i></button>|<button
                     (click)="deletedItemId=product.id" class="btn btn-danger" data-toggle="modal"
                     data-target="#deleteModal"><i class="fas fa-trash-alt"></i></button></td>
-            <app-modal [message]="deleteMode.message" (confirmed)=onDeleteProduct($event,i)></app-modal>
+            <app-modal [message]="deleteMode.message" (confirmed)="onDeleteProduct($event,i)"></app-modal>
             <!--Modal-->
             <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLable"
                 aria-hidden="true">
@@ -47,7 +49,7 @@
                         </div>
                         <div class="modal-body">
                             <!--Form -->
-                            <div class="alert alert-success" *ngIf="messageEdit">{{messageEdit}}</div>
+
                             <app-loading-spinner *ngIf="loading"></app-loading-spinner>
                             <form (ngSubmit)="onSubmit(form)" #form="ngForm" *ngIf="!loading">
                                 <div class="form-group row">

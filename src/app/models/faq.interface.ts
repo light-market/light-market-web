@@ -1,8 +1,8 @@
 export interface FAQ {
-    id?:string;
+    id?: string;
     author: string;
     specialist?: string;
     question: string;
-    answer ?: string;
-    isShown ?: boolean;
+    answer?: string;
+    isShown?: boolean;
 }

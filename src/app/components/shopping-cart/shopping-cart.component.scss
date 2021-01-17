@@ -1,0 +1,33 @@
+*{
+    font-style: sans-serif;
+}
+img{
+    width: 100%;
+    height: 100px;
+}
+.item{
+    background-color: #ffffff;
+    box-shadow: 1px 1px 1px 1px  rgb(228, 226, 226);
+    padding: 15px;
+    margin-bottom: 10px;
+}
+.gray{
+    color: gray;
+    font-size: 11px;
+}
+.black{
+    font-size: 13px;
+    margin-left: 5px;
+    color: black;
+    font-weight: bold;
+}
+.quantity{
+    padding: 5px;
+    font-weight: bold;
+    color: brown;
+}
+.btn-custom{
+    margin-top : 20px;
+    width: 100%;
+    height: 50px;
+}

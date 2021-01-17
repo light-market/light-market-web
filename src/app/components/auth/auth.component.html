@@ -1,13 +1,11 @@
-<div class="global-container">
+<app-loading-spinner *ngIf="wait"></app-loading-spinner>
+<div class="global-container" *ngIf="!wait">
     <div class="card login-form">
         <div class="card-body">
             <h3 class="card-title text-center">{{status}} Light Market</h3>
             <div class="card-text">
-                
-            <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="error">{{error}}</div>
-            <div *ngIf="wait">
-                <app-loading-spinner></app-loading-spinner> 
-            </div>
+
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="error">{{error}}</div>
                 <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!wait">
                     <!-- to error: add class "has-danger" -->
                     <div class="form-group" *ngIf="!islogging">
@@ -25,8 +23,8 @@
                         <input type="password" class="form-control form-control-sm" id="password" ngModel
                             name="password" required minlength="6">
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block"
-                        [disabled]="!authForm.valid" >{{islogging ? 'Login' : 'Register'}}</button>
+                    <button type="submit" class="btn btn-primary btn-block" [disabled]="!authForm.valid">{{islogging ?
+                        'Login' : 'Register'}}</button>
                     <div class="sign-up" *ngIf="islogging">
                         Don't have an account? <button class="btn btn-primary" style="margin-top: -4px;"
                             (click)="register()">Create one</button>

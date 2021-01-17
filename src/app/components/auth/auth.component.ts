@@ -37,12 +37,10 @@ export class AuthComponent implements OnInit {
       this.api.login(email, password).subscribe(res => {
         this.wait = false;
         this.userService.setUser(res.accessToken);
+        this.resetUserId();
         if (this.userService.role === 'admin') {
           this.router.navigate(['dashboard']);
         } else {
-          if (this.cartService.cart.totalPrice === 0) {
-            this.cartService.getCartFromApi();
-          }
           this.moveToPreviousPage();
         }
       }, error => {
@@ -57,6 +55,7 @@ export class AuthComponent implements OnInit {
       this.api.signUp(username, email, password).subscribe(res => {
         this.wait = false;
         this.userService.setUser(res.accessToken);
+        this.resetUserId();
         this.moveToPreviousPage();
 
       }, error => {
@@ -78,6 +77,16 @@ export class AuthComponent implements OnInit {
     } else {
       this.router.navigate([this.path]);
     }
+  }
+
+  resetUserId() {
+    this.route.queryParams.subscribe((params: Params) => {
+      if (params['redirectTo'] === 'shopping-cart') {
+        this.api.changeUserId().subscribe(res => {
+          this.router.navigate(['/shopping-cart']);
+        })
+      }
+    })
   }
 
 }

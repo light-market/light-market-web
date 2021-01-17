@@ -1,8 +1,9 @@
 <br>
-<h1 class="text-center alert alert-primary">{{category | titlecase}}</h1>
-<span class="text-center alert alert-success" *ngIf="message !== ''&& !timer">{{message}}</span>
-<hr>
-<div class="row">
-    <app-product *ngFor="let product of products" [product]="product" (itemSelected)="AddProductToCard(product)">
-    </app-product>
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<div class="container" *ngIf="!isLoading">
+    <div class="row">
+        <app-product class="col-xs-12 col-md-4 d-flex justify-content-center justify-content-md-start"
+            *ngFor="let product of products" [product]="product" (itemSelected)="AddProductToCard(product)">
+        </app-product>
+    </div>
 </div>

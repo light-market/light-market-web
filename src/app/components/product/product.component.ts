@@ -10,7 +10,6 @@ export class ProductComponent implements OnInit {
   @Input() product: Product;
   @Output() itemSelected = new EventEmitter<void>();
   isloading = false;
-
   constructor() { }
 
   ngOnInit(): void {
