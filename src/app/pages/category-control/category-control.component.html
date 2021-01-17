@@ -1,0 +1,141 @@
+<br>
+<br>
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<div class="container" *ngIf="!isLoading">
+    <app-success-message [message]="message" *ngIf="message" (click)="message=null"></app-success-message>
+    <div class="row">
+        <button class="btn btn-dark" data-toggle="modal" data-target="#addCategoryModal">Add Category</button>
+    </div>
+    <div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Edit Category</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form (ngSubmit)="onAddCategory(form)" #form="ngForm">
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="name" id="name" class="form-control" required ngModel>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="imageUrl" class="col-sm-3 col-form-label">ImageUrl</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="imageUrl" id="imageUrl" class="form-control" required ngModel>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-3 col-form-label">description</label>
+                            <div class="col-sm-9">
+                                <textarea name="description" id="description" cols="30" rows="5" class="form-control"
+                                    required ngModel></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="slag" class="col-sm-3 col-form-label">Slag</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="slag" id="slag" class="form-control" required ngModel>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Add</button>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <br>
+    <table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="categories?.length != 0">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Slag</th>
+                <th>Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let category of categories ; let i=index">
+                <td>{{i+1}}</td>
+                <td>{{category.name}}</td>
+                <td>{{category.describtion}}</td>
+                <td><img style="width: 50px; height: 50px; border-radius: 70%;" class="img-responsive"
+                        [src]="category.imageUrl"></td>
+                <td>{{category.slag}}</td>
+                <td><button class="btn btn-success" data-toggle="modal" data-target="#editCategoryModal"
+                        (click)="setEditId(category)"><i class="fas fa-edit"></i></button>|<button
+                        class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
+                        (click)="setDeletedId(category.id)"><i class="fas fa-trash-alt"></i></button></td>
+                <app-modal [message]="'Are you Sure Deleteing Category ???'" (confirmed)="onDeleteCategory($event)">
+                </app-modal>
+                <div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Edit Category</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form (ngSubmit)="onEditCategory(form)" #form="ngForm">
+                                    <div class="form-group row">
+                                        <label for="name" class="col-sm-3 col-form-label">Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="name" id="name" class="form-control"
+                                                [(ngModel)]="editCategory.name" required ngModel>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="imageUrl" class="col-sm-3 col-form-label">ImageUrl</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="imageUrl" id="imageUrl" class="form-control"
+                                                [(ngModel)]="editCategory.imageUrl" required ngModel>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="description" class="col-sm-3 col-form-label">description</label>
+                                        <div class="col-sm-9">
+                                            <textarea name="description" id="description" cols="30" rows="5"
+                                                class="form-control" required ngModel
+                                                [(ngModel)]="editCategory.describtion"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="slag" class="col-sm-3 col-form-label">Slag</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="slag" id="slag" class="form-control"
+                                                [(ngModel)]="editCategory.slag" required ngModel>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="id" [(ngModel)]="category.id">
+                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                </form>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </tr>
+
+        </tbody>
+    </table>
+</div>

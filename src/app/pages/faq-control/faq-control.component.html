@@ -1,78 +1,81 @@
 <br>
-<div class="alert alert-success " *ngIf="message.delete">{{message.delete}}</div>
-<div class="alert alert-success " *ngIf="message.approve">{{message.approve}}</div>
-<div class="alert alert-danger h1" *ngIf="questions.length ==0"> There is no question to show</div>
-<table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="questions?.length != 0">
-    <thead>
-        <tr>
-            <th>Question</th>
-            <th>Author</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let question of questions ; let i=index">
-            <th>{{question.question}}</th>
-            <th>{{question.author}}</th>
-            <th><button (click)="approvedQuestion=question" class="btn btn-success" data-toggle="modal"
-                    data-target="#answer"><i class="fas fa-check-circle"></i> Approve</button>|<button
-                    class="btn btn-danger" (click)="deletedItemID=question.id" data-toggle="modal"
-                    data-target="#deleteModal"><i class="fas fa-trash"></i>
-                    Delete</button></th>
-            <app-modal [message]="deleteMessage" (confirmed)=onDeleteQuestion($event,i)></app-modal>
+<div class="container">
+    <div class="alert alert-success " *ngIf="message.delete">{{message.delete}}</div>
+    <div class="alert alert-success " *ngIf="message.approve">{{message.approve}}</div>
+    <div class="alert alert-danger h1" *ngIf="questions.length ==0"> There is no question to show</div>
+    <table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="questions?.length != 0">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Author</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let question of questions ; let i=index">
+                <th>{{question.question}}</th>
+                <th>{{question.author}}</th>
+                <th><button (click)="approvedQuestion=question" class="btn btn-success" data-toggle="modal"
+                        data-target="#answer"><i class="fas fa-check-circle"></i> Approve</button>|<button
+                        class="btn btn-danger" (click)="deletedItemID=question.id" data-toggle="modal"
+                        data-target="#deleteModal"><i class="fas fa-trash"></i>
+                        Delete</button></th>
+                <app-modal [message]="deleteMessage" (confirmed)=onDeleteQuestion($event,i)></app-modal>
 
-            <div class="modal fade" id="answer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-                aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Approve Question</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form (ngSubmit)="onSubmit(form)" #form="ngForm">
-                                <div class="form-group row">
-                                    <label for="author" class="col-sm-3 col-form-label">Author</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="author" id="author" class="form-control"
-                                            [(ngModel)]="approvedQuestion.author" disabled ngModel>
+                <div class="modal fade" id="answer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Approve Question</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+                                    <div class="form-group row">
+                                        <label for="author" class="col-sm-3 col-form-label">Author</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="author" id="author" class="form-control"
+                                                [(ngModel)]="approvedQuestion.author" disabled ngModel>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="question" class="col-sm-3 col-form-label">Question</label>
-                                    <div class="col-sm-9">
-                                        <textarea name="question" id="question" cols="30" rows="5" class="form-control"
-                                            disabled ngModel [(ngModel)]="approvedQuestion.question"></textarea>
+                                    <div class="form-group row">
+                                        <label for="question" class="col-sm-3 col-form-label">Question</label>
+                                        <div class="col-sm-9">
+                                            <textarea name="question" id="question" cols="30" rows="5"
+                                                class="form-control" disabled ngModel
+                                                [(ngModel)]="approvedQuestion.question"></textarea>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group row">
-                                    <label for="answer" class="col-sm-3 col-form-label">Answer</label>
-                                    <div class="col-sm-9">
-                                        <textarea name="answer" id="answer" cols="30" rows="5" class="form-control"
-                                            required ngModel></textarea>
+                                    <div class="form-group row">
+                                        <label for="answer" class="col-sm-3 col-form-label">Answer</label>
+                                        <div class="col-sm-9">
+                                            <textarea name="answer" id="answer" cols="30" rows="5" class="form-control"
+                                                required ngModel></textarea>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="form-group row">
-                                    <label for="specialist" class="col-sm-3 col-form-label">Specialist</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" name="specialist" id="specialist" class="form-control"
-                                            required ngModel>
+                                    <div class="form-group row">
+                                        <label for="specialist" class="col-sm-3 col-form-label">Specialist</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="specialist" id="specialist" class="form-control"
+                                                required ngModel>
+                                        </div>
                                     </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Approve</button>
-                            </form>
+                                    <button type="submit" class="btn btn-primary">Approve</button>
+                                </form>
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </tr>
-    </tbody>
-</table>
+            </tr>
+        </tbody>
+    </table>
+</div>

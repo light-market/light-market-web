@@ -1,66 +1,56 @@
-<div class="row center" *ngIf="!isAsking" style="margin-top: 20px;">
-    <button class="btn btn-primary" (click)="askQuestion()">Ask Question</button>
-</div>
-<div class="row" *ngIf="!isAsking" style="margin-top: 20px;">
-    <div class="col-md-6 offset-md-3" *ngFor="let question of faq; let i = index">
-        <div class="faq" [id]="'accordion-'+i">
-            <div class="card">
-                <div class="card-header" id="faqHeading-1">
-                    <div class="mb-0">
-                        <h5 class="faq-title" data-toggle="collapse" data-target="#faqCollapse-1"
-                            data-aria-expanded="true" data-aria-controls="faqCollapse-1">
-                            {{question.question}}
-                        </h5>
-                    </div>
+<br>
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<div class="container" *ngIf="!isLoading">
+    <div class="row" *ngIf="message">
+        <div class="col-sm-12 d-flex justify-content-center">
+            <div class="alert alert-success">
+                <p class="text-center"><i class="fa fa-check-square fa-3x"></i></p>
+                <h3 class="lead text-center">{{message}}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <button class="btn btn-warning btn-xl" data-toggle="modal" data-target="#addQuestion">ASK A SPECIALIST</button>
+    </div>
+    <div class="modal fade" id="addQuestion" tabindex="-1" role="dialog" aria-labelledby="editModalLable"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLable">Add Your Consultation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div id="faqCollapse-1" class="collapse" aria-labelledby="faqHeading-1"
-                    [attr.data-parent]="'#accordion-'+i">
-                    <div class="card-body">
-                        <p>{{question.answer}}</p>
-                        <p>Asked by : {{question.author}}</p>
-                        <p>answerd by : {{question.specialist}}</p>
-                    </div>
+                <div class="modal-body">
+                    <!--Form -->
+                    <form (ngSubmit)="onSubmitQuestion(f)" #f="ngForm">
+                        <div class="form-group row">
+                            <label for="author" class="col-sm-3 col-form-label">Your Name</label>
+                            <div class="col-sm-9">
+                                <input id="author" name="author" type="text" placeholder="Full Name"
+                                    class="form-control" required ngModel>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="question" class="col-sm-3 col-form-label">Question</label>
+                            <div class="col-sm-9">
+                                <textarea name="question" id="question" cols="30" rows="5" class="form-control"
+                                    placeholder="Enter your massage for us here. We will get back to you within 2 business days."
+                                    required ngModel></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success" [disabled]="!f.valid">Send</button>
+                    </form>
+                    <!-- End Form -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row" *ngIf="isAsking">
-    <div class="alert alert-success" *ngIf="message">{{message}}</div>
-    <div class="col-md-12">
-        <div class="well well-sm">
-            <form class="form-horizontal" (ngSubmit)="onSubmitQuestion(f)" #f="ngForm">
-                <fieldset>
-                    <legend class="text-center header">Your Veterinary Problem</legend>
-
-                    <div class="form-group">
-                        <div class="row">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
-                            <div class="col-md-8">
-                                <input id="author" name="author" type="text" placeholder="Full Name" class="form-control"
-                                    ngModel required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <span class="col-md-1 col-md-offset-2 text-center"><i
-                                    class="fas fa-pen-square bigicon"></i></span>
-                            <div class="col-md-8">
-                                <textarea class="form-control" id="question" name="question"
-                                    placeholder="Enter your massage for us here. We will get back to you within 2 business days."
-                                    rows="7" ngModel required></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-12 text-center">
-                            <button type="submit" class="btn btn-primary btn-lg" [disabled]="!f.valid">Submit</button>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
-    </div>
+    <br>
+    <app-single-faq *ngFor="let singleFaq of faq" [faq]="singleFaq"></app-single-faq>
 </div>

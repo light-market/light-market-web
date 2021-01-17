@@ -1,29 +1,74 @@
-<table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="carts?.length != 0">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Customer ID</th>
-            <th>Cart</th>
-            <th>Phrchasing Date</th>
-            <th>Delivery Date</th>
-            <th>Order Status</th>
-            <th>Comments</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let cart of carts;let i=index">
-            <th>{{i+1}}</th>
-            <th>{{cart.userId}}</th>
-            <th>
-                <div *ngFor="let product of cart.products">
-                    <p *ngIf="product.productID.name !==null">{{product.productID.name}}||<span>{{product.quantity}}</span></p>
+<br>
+<div class="container">
+    <app-success-message *ngIf="message" [message]="message" (click)="message=null"></app-success-message>
+    <table datatable [dtOptions]="dtOptions" class="row-border hover" *ngIf="carts?.length != 0">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Customer ID</th>
+                <th>Cart</th>
+                <th>Phrchasing Date</th>
+                <th>Delivery Date</th>
+                <th>Order Status</th>
+                <th>Set Order Delivered</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cart of carts;let i=index">
+                <th>{{i+1}}</th>
+                <th>{{cart.userId}}</th>
+                <th>
+                    <div *ngFor="let product of cart.products">
+                        <p>{{product.productID.name}}||<span>{{product.quantity}}</span></p>
+                    </div>
+                </th>
+                <th>{{cart.date| date}}</th>
+                <th>{{cart.deliveryDate | date}}<button class="btn btn-success" *ngIf="cart.status==='orderd'"
+                        data-toggle="modal" data-target="#editModal" (click)="datedItem=cart.id">Set</button>
+                </th>
+                <th>{{cart.status}}</th>
+                <th>
+                    <p *ngIf="cart.status === 'delivered'">Done</p>
+                    <button *ngIf="cart.status !== 'delivered'" [disabled]="cart.status !== 'delivering'"
+                        class="btn btn-primary" (click)="setOrderDelivered(cart.id)">Set Delivered</button>
+                </th>
+                <th>
+                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
+                        (click)="deletedItem=cart.id">Delete</button>
+                </th>
+                <app-modal [message]="'Are you Sure Deleting This Cart'" (confirmed)="onClickModal($event,cart.id)">
+                </app-modal>
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLable"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLable">Edit Product</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form (ngSubmit)="setDate(form)" #form="ngForm">
+                                    <div class="form-group row">
+                                        <label for="deliveryDate" class="col-sm-3 col-form-label">Delivery Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="datetime-local" name="deliveryDate" id="deliveryDate"
+                                                class="form-control" ngModel required>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="id" [(ngModel)]="cart.id" ngModel>
+                                    <button type="submit" class="btn btn-success">Save Date</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </th>
-            <th>Phrchasing Date</th>
-            <th>Delivery Date</th>
-            <th>Order Status</th>
-            <th>Comments</th>
-        </tr>
-    </tbody>
-</table>
-  
+            </tr>
+        </tbody>
+    </table>
+</div>

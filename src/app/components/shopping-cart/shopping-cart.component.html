@@ -1,54 +1,122 @@
-<div *ngIf="cart.totalPrice === 0" style="margin-top: 30px;" class="text-center">
-  <h1 class="alert alert-primary">You have not any items in cart yet</h1>
+<br>
+<div *ngIf="loading">
+  <app-loading-spinner></app-loading-spinner>
 </div>
-<div class="row" *ngIf="cart.totalPrice !== 0">
-  <div class="col-xs-12">
-    <div class="modal-body">
-      <table class="table table-image">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Product</th>
-            <th scope="col">Price</th>
-            <th scope="col">Qty</th>
-            <th scope="col">Total</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody *ngFor="let item of cart['product'];let i = index">
-          <tr>
-            <td class="w-25">
-              <img [src]="item.imageUrl" class="img-fluid img-thumbnail" alt="Cannot load img">
-            </td>
-            <td>{{item.name}}</td>
-            <td>{{item.price}}$</td>
+<div>
+  <div class="container" *ngIf="!loading">
+    <div class="row">
+      <div class="col-md-8">
+        <h3>Shopping Cart({{totalItemss}})</h3>
+        <div *ngIf="cart.totalPrice==0">
+          <div class="col-12 alert alert-info" style="line-height: 1; margin-top: 40px;">
+            <p>Shopping cart is currently empty</p>
+            <p>Add items to your cart and view them here before you checkout</p>
+          </div>
+          <button class="btn btn-secondary" (click)="getOrders()">Previous Orders</button>
 
-
-            <td><button *ngIf="item.quantity !==1" class="btn btn-danger btn-sm" (click)="decreaseAmouunt(i,item.price)"
-                [disabled]="quantities[i]?.quantity===1">-</button> <span> {{quantities[i]?.quantity}} </span>
-              <button *ngIf="item.quantity !==1" class="btn btn-success btn-sm" (click)="addAmount(i,item.price)"
-                [disabled]="quantities[i]?.quantity===item?.quantity">+</button>
-            </td>
-
-
-            <td>{{item.price * quantities[i]?.quantity}}$</td>
-
-
-
-            <td>
-              <button class="btn btn-danger btn-sm" (click)="deleteItem(i)">
-                <i class="fa fa-times"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="d-flex justify-content-end">
-        <h5>Total: <span class="price text-success">{{cart.totalPrice}}</span></h5>
+        </div>
+        <div *ngIf="cart.totalPrice !=0">
+          <div class="item rounded" *ngFor="let item of cart.products;let i=index">
+            <div class="row">
+              <div class="col-3">
+                <img [src]="item.productID.imageUrl">
+              </div>
+              <div class="col-6">
+                <p class="lead">{{item.productID.name}}</p>
+                <p class="lead" style="color:brown;font-weight: bolder;">LE {{item.productID.price*item.quantity}} <span
+                    class="gray">({{item.productID.price}}
+                    for each
+                    other)</span></p>
+                <p style="color: #1CC874;"><i class="fas fa-check"></i><span class="black">Free Shipping</span></p>
+                <p class="gray">Sold by: Light Market.com</p>
+                <p class="gray">Condition: New</p>
+              </div>
+              <div class="col-3 d-flex align-items-center">
+                <button *ngIf="cart.status === 'select'" class="btn btn-danger btn-sm" [disabled]="item.quantity ===1"
+                  (click)="onUpdateAmount(cart.id,item.productID._id,item.productID.price,'minus')"><i
+                    class="fas fa-minus"></i></button> <span class="quantity">{{item.quantity}}</span>
+                <button class="btn btn-dark btn-sm" *ngIf="cart.status === 'select'"
+                  [disabled]="item.quantity ===item.productID.quantity"
+                  (click)="onUpdateAmount(cart.id,item.productID._id,item.productID.price,'add')"><i
+                    class="fas fa-plus"></i></button>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-12">
+                <button class="btn btn-danger"
+                  (click)="onUpdateAmount(cart.id,item.productID._id,item.productID.price,'delete')"><i
+                    class="fas fa-trash"></i> Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="modal-footer border-top-0 d-flex justify-content-between">
-      <button type="button" class="btn btn-primary" (click)="saveCart()">Checkout</button>
+      <div class="col-md-4" *ngIf="cart.totalPrice> 0">
+        <div class="item" style="margin: auto;">
+          <p>Total :</p>
+          <p style="font-weight: bolder; color: black; font-size: 23px; font-family: monospace;">LE
+            {{cart.totalPrice}}</p>
+          <hr>
+          <p style="color: #1CC874;"><i class="fas fa-check"></i><span class="black">This Order Allow Free
+              Shipping</span>
+          </p>
+        </div>
+        <button class="btn btn-success btn-custom" (click)="checkout()" data-toggle="modal" data-target="#comInfo"
+          *ngIf="cart.status ==='select'">PROCEED TO
+          CHECKOUT</button>
+        <button class="btn btn-secondary btn-custom" (click)="getOrders()">Previous Orders</button>
+        <div class="modal fade" id="comInfo" tabindex="-1" role="dialog" aria-labelledby="editModalLable"
+          aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editModalLable">Complete Your Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!--Form -->
+                <div class="alert alert-success" *ngIf="message">
+                  {{message}}
+                </div>
+                <form (ngSubmit)="makeOrder(f)" #f="ngForm">
+                  <div class="form-group row">
+                    <label for="fullname" class="col-sm-3 col-form-label">Your Fullname</label>
+                    <div class="col-sm-9">
+                      <input id="fullname" name="fullname" type="text" placeholder="Full Name" class="form-control"
+                        required ngModel>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="address" class="col-sm-3 col-form-label">Address</label>
+                    <div class="col-sm-9">
+                      <textarea name="address" id="address" cols="30" rows="5" class="form-control"
+                        placeholder="Enter your full address to help us to reach your location " required
+                        ngModel></textarea>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label for="phone" class="col-sm-3 col-form-label">Your Phone</label>
+                    <div class="col-sm-9">
+                      <input id="phone" name="phone" type="text" placeholder="Phone" class="form-control" required
+                        ngModel>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-success" [disabled]="!f.valid">Order</button>
+                </form>
+                <!-- End Form -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

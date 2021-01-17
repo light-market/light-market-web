@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Category } from 'src/app/models/category.interface';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Product } from 'src/app/models/product.interface';
 import { FAQ } from 'src/app/models/faq.interface';
-import { tap } from 'rxjs/operators'
 import { Quantities } from 'src/app/models/quantities.interface';
 import { environment } from '../../../environments/environment'
 import { UserService } from '../user/user.service';
@@ -21,6 +20,10 @@ export class ApiService {
   constructor(private http: HttpClient, private userService: UserService) {
   }
   loggedin = false;
+
+  setIPAPi() {
+    return this.http.get<any>("http://api.ipify.org/?format=json")
+  }
 
   getCategories() {
     return this.http.get<Category[]>(api + '/categories');
@@ -68,10 +71,93 @@ export class ApiService {
   getCart() {
     const token = this.userService.token;
     if (token) {
-      return this.http.get<{ cart: Product[], quantities: Quantities[], totalPrice: number }>(api + '/cart', {
+      return this.http.get<Cart>(api + '/cart', {
+        headers: new HttpHeaders({ 'accessToken': token })
+      })
+    } else {
+      console.log(this.userService.ip)
+      return this.http.get<Cart>(api + '/cart', {
+        headers: new HttpHeaders({ 'ip': this.userService.ip })
+      })
+    }
+  }
+  setOrderDelieveryDate(date: Date, id: string) {
+    const token = this.userService.token;
+    return this.http.put<any>(api + '/cart/deliveryDate', { date: date, id: id }, {
+      headers: new HttpHeaders({ 'adminToken': token })
+    })
+  }
+  changeUserId() {
+    const token = this.userService.token;
+    if (token) {
+      return this.http.put<Cart>(api + '/cart/editId', { ip: this.userService.ip }, {
         headers: new HttpHeaders({ 'accessToken': token })
       })
     }
+  }
+  order(cart: Cart) {
+    const token = this.userService.token;
+    console.log(token)
+    if (token) {
+      return this.http.put<{ message: string }>(api + '/cart', { cart }, {
+        headers: new HttpHeaders({ 'accessToken': token })
+      })
+    }
+  }
+  editCategory(category: Category) {
+    const token = this.userService.token;
+    return this.http.put<{ message: string }>(api + '/categories', { category }, {
+      headers: new HttpHeaders({ 'adminToken': token })
+    })
+
+  }
+  addCategory(category: Category) {
+    const token = this.userService.token;
+    return this.http.post<{ message: string }>(api + '/categories', category, {
+      headers: new HttpHeaders({ 'adminToken': token })
+    })
+  }
+  deleteCategory(id: string) {
+    const token = this.userService.token;
+    return this.http.delete<{ message: string }>(api + '/categories/' + id, {
+      headers: new HttpHeaders({ 'adminToken': token })
+    })
+  }
+
+  setDelivered(id: string) {
+    const token = this.userService.token;
+    return this.http.put<{ message: string }>(api + '/orderDelivered/' + id, {}, {
+      headers: new HttpHeaders({ 'adminToken': token })
+    })
+  }
+  deleteCart(id: string) {
+    const token = this.userService.token;
+    return this.http.delete<any>(api + '/cart/' + id, {
+      headers: new HttpHeaders({ 'adminToken': token })
+    })
+  }
+  addProductToCart(product: Product) {
+    if (this.userService.token) {
+      return this.http.post<any>(api + '/cart', product, {
+        headers: new HttpHeaders({ 'accessToken': this.userService.token })
+      })
+    } else {
+      console.log(this.userService.ip)
+      return this.http.post<any>(api + '/cart', {
+        product: product,
+        userId: this.userService.ip
+      })
+    }
+
+
+  }
+  UpdateAmount(cartID: string, productID: string, productPrice: string, type: string) {
+    return this.http.post<Cart>(api + '/cart-update', {
+      cartID: cartID,
+      productID: productID,
+      productPrice: productPrice,
+      type: type
+    })
   }
   addProduct(product: Product, type: string) {
     const token = this.userService.token;
@@ -109,11 +195,18 @@ export class ApiService {
       headers: new HttpHeaders({ 'adminToken': token })
     })
   }
-  getOrders(){
+  getOrders() {
     const token = this.userService.token;
-    return this.http.get<Cart[]>(api + '/cart-admin' ,{
+    return this.http.get<Cart[]>(api + '/cart-admin', {
       headers: new HttpHeaders({ 'adminToken': token })
-    }) 
+    })
+  }
+  getUserOrder() {
+    const token = this.userService.token;
+    return this.http.get<Cart[]>(api + '/userOrders', {
+      headers: new HttpHeaders({ 'accessToken': token })
+    })
+
   }
 
 }

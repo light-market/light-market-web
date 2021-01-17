@@ -1,8 +1,8 @@
-<figure class="card card-product">
-    <a [routerLink]="category.slag">
-        <div class="img-wrap"><img [src]="category.imageUrl"></div>
-        <figcaption class="info-wrap">
-            <h4 class="title">{{category.name}}</h4>
-        </figcaption>
-    </a>
-</figure>
+<a [routerLink]="category.slag">
+    <div class="card border-warning">
+        <img class="card-img-top card-img" [src]="category.imageUrl" alt="Card image cap">
+        <div class="card-body">
+            <p class="card-text lead">{{category.describtion}}</p>
+        </div>
+    </div>
+</a>

@@ -1,5 +1,74 @@
-<div class="row">
-    <div class="col-md-4" *ngFor="let category of categories ; let i = index">
-        <app-category [category]="category"></app-category>
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<div *ngIf="!isLoading">
+    <div class="jumbotron jumbotron-color">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 class="display-4">HELLO TO OUR LIGHT MARKET</h1>
+                    <p class="lead">Here You Will What You Wish For You Quite Pet Come Here To Make Your Petty Happier
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <img src="https://www.pngfind.com/pngs/m/309-3099025_dog-clipart-transparent-background-animated-dogs-apple-music.png"
+                        class="img-responsive" style="width: 250px; height: 250px; border-radius: 20%;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <h1 class="display-4" style="color: brown;">OUR SECTION</h1>
+        </div>
+        <br>
+        <div class="row d-flex justify-content-center justify-content-md-start">
+            <app-category class="col-md-3" *ngFor="let category of categories ; let i = index" [category]="category">
+            </app-category>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+            <h1 class="display-4" style="color: brown;">GET ADVICE</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <p class="lead">Don't Be Shame For Asking About Healthy Of Your Petty We Have A Banch Of Specialists To
+                    Answer Your Consultation, How Deal With Your Pet, Which Medicine And Suppplments Are Getten and
+                    More..... </p>
+                <button class="btn btn-warning btn-lg">Get Our Community</button>
+            </div>
+            <div class="col-md-8">
+                <img class="rounded" style=" width:100%; height: 270px;"
+                    src="https://www.royacdn.com/unsafe/Site-fa7d0fd6-287a-43a7-8a14-fa8300f91210/index/hf2.jpg">
+            </div>
+        </div>
+        <br>
+        <div class="row justify-content-center">
+            <h1 class="display-4" style="color: brown;">Brands</h1>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-lg-2 text-center">
+                <img class="rounded-circle logo"
+                    src="https://www.logocowboy.com/wp-content/uploads/2016/07/CullenFarmsLC.png">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2 text-center">
+                <img class="rounded-circle logo"
+                    src="https://img2-placeit-net.s3-accelerate.amazonaws.com/uploads/stage/stage_image/83872/optimized_large_thumb_stage.jpg">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2 text-center">
+                <img class="rounded-circle logo"
+                    src="https://i.pinimg.com/originals/57/6c/02/576c0200cc7cc7736fe8ecc04e4ce76d.jpg">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2 text-center">
+                <img class="rounded-circle logo"
+                    src="https://i.pinimg.com/236x/b1/bc/82/b1bc82c79bd58c881a3ee93d3158888d--creative-icon-logo-creative.jpg">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2 text-center">
+                <img class="rounded-circle logo" src="https://logopond.com/logos/0bb4389bed8990d388b563aaa27caced.png">
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2 text-center">
+                <img class="rounded-circle logo"
+                    src="https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2020/01/Best-Dog-Logos-and-How-to-Make-Your-Own-for-Free-image1.jpg">
+            </div>
+        </div>
     </div>
 </div>

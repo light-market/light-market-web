@@ -1,7 +1,6 @@
-import { Component, OnInit, OnChanges, DoCheck } from '@angular/core';
+import { Component, DoCheck } from '@angular/core';
 import { ApiService } from 'src/app/services/api/api.service';
 import { CartService } from 'src/app/services/cart/cart.service';
-import { Product } from 'src/app/models/product.interface';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -42,7 +41,7 @@ export class HeaderComponent implements DoCheck {
       'link': '/shopping-cart'
     }
   ]
-  constructor(private api: ApiService, private cartService: CartService , private router : Router ,private userService:UserService) { }
+  constructor(private api: ApiService, private cartService: CartService, private router: Router, private userService: UserService) { }
   ngDoCheck(): void {
     if (this.userService.token) {
       this.checkLogin = true;
@@ -50,27 +49,20 @@ export class HeaderComponent implements DoCheck {
   }
 
   ngOnInit(): void {
+    this.api.setIPAPi().subscribe(res => {
+      this.userService.ip = res.ip;
+    }, err => {
+      console.log('error happend' + err)
+    })
     this.userService.checkLogged();
     if (this.userService.token) {
       this.checkLogin = true;
-      if (this.cartService.cart.totalPrice === 0) {
-        this.cartService.getCartFromApi();
-      }
     }
-
   }
 
   logout() {
-    console.log(this.userService.token);
     this.userService.removeUser();
-    console.log(this.userService.token)
     this.checkLogin = false;
-    this.cartService.cart = {
-      product: <Array<Product>>[],
-      totalPrice: 0
-    };
-    this.cartService.orderQuantities = [];
     this.router.navigate(['/']);
-    
   }
 }

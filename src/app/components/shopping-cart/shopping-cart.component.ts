@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CartService } from 'src/app/services/cart/cart.service';
-import { Cart } from 'src/app/models/cart.interface';
-import { Quantities } from 'src/app/models/quantities.interface';
 import { ApiService } from 'src/app/services/api/api.service';
 import { Router } from '@angular/router';
+import { Cart } from 'src/app/models/cart.interface';
+import { UserService } from 'src/app/services/user/user.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -11,49 +11,81 @@ import { Router } from '@angular/router';
   styleUrls: ['./shopping-cart.component.scss']
 })
 export class ShoppingCartComponent implements OnInit {
+  loading = false;
+  message: string;
+  totalItemss = 0;
   cart: Cart = {
-    product: [],
+    products: [{
+      quantity: 0,
+      productID: {
+        id: ''
+      }
+    }],
     totalPrice: 0
   };
-  quantities: Quantities[] = [];
-  message: string;
 
   constructor(
-    private cartService: CartService,
     private api: ApiService,
     private router: Router,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
-    this.getCart();
+    this.loading = true;
+    this.api.getCart().subscribe(res => {
+      if (res != null) {
+        this.cart = res;
+        this.totalItems(this.cart.products)
+      }
 
+      this.loading = false
+    }, err => {
+      console.log(err)
+      this.loading = false
+    })
   }
 
-  getCart() {
-    this.cart = this.cartService.getCart();
-    this.quantities = this.cartService.orderQuantities;
-  }
 
-  addAmount(index: number, price: string) {
-    this.quantities[index].quantity = this.quantities[index].quantity + 1;
-    this.cart.totalPrice = this.cart.totalPrice + +price;
-  }
 
-  decreaseAmouunt(index: number, price: string) {
-    this.quantities[index].quantity = this.quantities[index].quantity - 1;
-    this.cart.totalPrice = this.cart.totalPrice - +price;
+  onUpdateAmount(cartID: string, productID: string, productPrice: string, type: string) {
+    this.loading = true;
+    this.api.UpdateAmount(cartID, productID, productPrice, type).subscribe(res => {
+      this.loading = false
+      this.cart = res;
+      this.totalItems(this.cart.products)
+    }, err => {
+      console.log(err);
+      this.loading = false
+    })
   }
+  checkout() {
+    if (!this.userService.token) {
+      this.router.navigate(['auth'], { queryParams: { redirectTo: 'shopping-cart' } });
+    }
 
-  deleteItem(index: number) {
-    this.cartService.deleteProductFromCart(index);
   }
-  saveCart() {
-    //console.log('1236')
-    this.api.apiSaveToCart(this.quantities, this.cart.totalPrice).subscribe(response => {
-      console.log(response);
-    }, error => {
-      this.router.navigate(['auth'], { queryParams: { last: 'shopping-cart' } });
-
-    });
+  makeOrder(form: NgForm) {
+    this.cart.fullname = form.value.fullname;
+    this.cart.address = form.value.address;
+    this.cart.phone = form.value.phone;
+    this.api.order(this.cart).subscribe(res => {
+      this.message = res.message;
+    }, err => {
+      console.log(err)
+    })
+  }
+  getOrders() {
+    if (!this.userService.token) {
+      this.router.navigate(['auth'], { queryParams: { redirectTo: 'last-orders' } });
+    }
+    else {
+      this.router.navigate(['last-orders'])
+    }
+  }
+  totalItems(products) {
+    this.totalItemss = 0
+    for (let item = 0; item < products.length; item++) {
+      this.totalItemss = this.totalItemss + products[item].quantity
+    }
   }
 }

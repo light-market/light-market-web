@@ -30,7 +30,6 @@ export class FaqControlComponent implements OnInit {
     };
     this.apiService.getQuestionsAdmin().subscribe(res => {
       this.questions = res;
-      console.log(this.questions)
     }, err => {
       console.log(err)
     })
